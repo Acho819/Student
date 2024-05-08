@@ -32,6 +32,9 @@
           <el-button @click="data.formVisible = false">取消</el-button>
           <el-button type="primary" @click="SavePassword">保存</el-button>
         </div>
+        <div style="display: inline-block; margin-top: 10px;">
+          <a href="/back">忘记密码</a>
+        </div>
       </el-form>
     </el-dialog>
   </div>
@@ -58,6 +61,11 @@ const data = reactive({
   }
 
   const SavePassword = () => {
+    //判定两次密码是否一致
+    if (data.newPassword !== data.confirmPassword) {
+      ElMessage.error("两次密码输入不一致");
+      return;
+    }
       request.post('/students/check-password', {username:data.formData.username, oldPassword: data.oldPassword,newPassword: data.newPassword }).then(res => {
         if (res.code === '200') {
               ElMessage.success("密码修改成功")

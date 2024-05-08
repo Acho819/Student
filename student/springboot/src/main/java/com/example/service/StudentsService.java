@@ -20,14 +20,14 @@ public class StudentsService {
 
 
     //登录逻辑
-    public Account login(Account account){
+    public Account login(Account account) {
         Account dbStudents = studentsMapper.selectByUsername(account.getUsername());
-        if (dbStudents == null){
+        if (dbStudents == null) {
             //账号不存在
             throw new CustomException("账号不存在");
         }
         //核对密码
-        if (!account.getPassword().equals(dbStudents.getPassword())){
+        if (!account.getPassword().equals(dbStudents.getPassword())) {
             throw new CustomException("账号或密码错误");
         }
         return dbStudents;
@@ -51,7 +51,7 @@ public class StudentsService {
     //注册逻辑
     public void add(Students students1) {
         Students dbStudents = studentsMapper.selectByUsername(students1.getUsername());
-        if(dbStudents != null){
+        if (dbStudents != null) {
             throw new CustomException("账号已存在");
         }
         studentsMapper.insert(students1);
@@ -65,8 +65,8 @@ public class StudentsService {
         studentsMapper.updateById(students);
     }
 
-    public PageInfo<Students> selectPage(Integer pageNum,Integer pageSize, Students students) {
-        PageHelper.startPage(pageNum,pageSize);
+    public PageInfo<Students> selectPage(Integer pageNum, Integer pageSize, Students students) {
+        PageHelper.startPage(pageNum, pageSize);
         List<Students> studentsList = studentsMapper.selectAll(students);
         return PageInfo.of(studentsList);
     }
@@ -86,4 +86,28 @@ public class StudentsService {
         // 如果旧密码匹配，则更新密码
         studentsMapper.updatePassword(username, newPassword);
     }
+
+    public void SelectUsername(String username) {
+        Account dbStudents = studentsMapper.selectByUsername(username);
+        if (dbStudents == null || !username.equals(dbStudents.getUsername())) {
+            throw new CustomException("用户名不存在，请重新输入");
+        }
+    }
+
+    public void SavePassword(String username, String phonenumber, String newPassword) {
+        // 根据用户名查询学生信息
+        Students student = studentsMapper.selectByUsername(username);
+        if (student == null) {
+            throw new CustomException("用户名不存在，请重新输入");
+        }
+
+        // 检查手机号是否匹配
+        if (!phonenumber.equals(student.getPhonenumber())) {
+            throw new CustomException("手机号与用户名不匹配，请重新输入");
+        }
+
+        // 更新密码
+        studentsMapper.updatePassword(username, newPassword);
+    }
 }
+

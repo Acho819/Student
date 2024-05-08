@@ -31,4 +31,7 @@ public interface StudentsMapper {
 
     @Update("update students set password=#{newPassword} where username=#{username}")
     void updatePassword(String username, String newPassword);
+
+    @Update("update students set password=#{newPassword} where phonenumber=#{phonenumber}")
+    void SavePassword(String phonenumber, String newPassword);
 }

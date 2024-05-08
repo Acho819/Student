@@ -24,8 +24,13 @@
             </el-button>
           </el-form-item>
         </el-form>
-        <div style="margin-top: 30px;text-align: right">
-          <a href="/enroll">注册</a>
+        <div style="margin-top: 30px;">
+          <div style="display: inline-block; margin-right: 192.67px;">
+            <a href="/enroll">注册</a>
+          </div>
+          <div style="display: inline-block;">
+            <a href="/back">忘记密码</a>
+          </div>
         </div>
       </div>
     </div>
