@@ -61,7 +61,7 @@ const Reset = () => {
   request.post('/students/reset', {username: data.form.username}).then(res => {
     if (res.code === '200') {
       ElMessage.success("信息验证成功")
-      data.formVisible = true
+      data.formVisible=true
     }
     else {
       ElMessage.error(res.msg)

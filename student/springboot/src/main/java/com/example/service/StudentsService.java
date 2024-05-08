@@ -87,13 +87,13 @@ public class StudentsService {
         studentsMapper.updatePassword(username, newPassword);
     }
 
+    //忘记密码
     public void SelectUsername(String username) {
         Account dbStudents = studentsMapper.selectByUsername(username);
         if (dbStudents == null || !username.equals(dbStudents.getUsername())) {
             throw new CustomException("用户名不存在，请重新输入");
         }
     }
-
     public void SavePassword(String username, String phonenumber, String newPassword) {
         // 根据用户名查询学生信息
         Students student = studentsMapper.selectByUsername(username);
