@@ -34,8 +34,12 @@
               <span>课程信息</span>
             </el-menu-item>
             <el-menu-item index="/Student-Course" v-if="user.role === 'STUDENT'">
-              <el-icon><Calendar /></el-icon>
+              <el-icon><Pointer /></el-icon>
               <span>学生选课</span>
+            </el-menu-item>
+            <el-menu-item index="/Students-Course-List">
+              <el-icon><Calendar /></el-icon>
+              <span>课程列表</span>
             </el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="3" v-if="user.role === 'ADMIN'">
@@ -52,7 +56,7 @@
             <el-icon><User /></el-icon>
             <span>个人资料</span>
           </el-menu-item>
-          <el-sub-menu index="4">
+          <el-sub-menu index="4" v-if="user.role ==='STUDENT'">
             <template #title>
               <el-icon><Hide /></el-icon>
               <span>隐私</span>

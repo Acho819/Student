@@ -6,6 +6,7 @@ public class StudentsCourse {
     private String no;
     private Integer students_id;
     private Integer course_id;
+    private String studentsName;
 
     public Integer getId() {
         return id;
@@ -45,5 +46,13 @@ public class StudentsCourse {
 
     public void setCourse_id(Integer course_id) {
         this.course_id = course_id;
+    }
+
+    public String getStudentsName() {
+        return studentsName;
+    }
+
+    public void setStudentsName(String studentsName) {
+        this.studentsName = studentsName;
     }
 }
