@@ -2,9 +2,9 @@
   <div>
     <div class="card">
       <el-input
-          v-model="data.name"
+          v-model="data.studentsName"
           style="width: 240px"
-          placeholder="请输入名称搜索"
+          placeholder="请输入学生名称搜索"
           :prefix-icon="Search"
       />
       <el-button type="warning" style="margin-left: 10px" @click="load">搜索</el-button>
@@ -14,13 +14,16 @@
       <div>
         <el-table :data="data.tableData" style="width: 100%">
           <el-table-column prop="id" label="序号" width="52"/>
-          <el-table-column prop="name" label="课程名称"/>
-          <el-table-column prop="no" label="课程编号"/>
-          <el-table-column prop="studentsName" label="选课人"/>
+          <el-table-column prop="courseName" label="课程名称"/>
+          <el-table-column prop="studentsName" label="学生名称"/>
+          <el-table-column prop="score" label="分数"/>
+          <el-table-column prop="comment" label="评语"/>
+          <el-table-column prop="feedback" label="反馈"/>
           <el-table-column label="操作" width="180">
             <template #default="scope">
-              <el-button type="danger" @click="Del(scope.row.id)">删除</el-button>
-              <el-button type="primary" @click="Score(scope.row)" v-if="data.user.role === 'ADMIN'">打分</el-button>
+              <el-button type="primary" @click="ScoreEdit(scope.row)" v-if="data.user.role === 'ADMIN'">编辑</el-button>
+              <el-button type="danger" @click="Del(scope.row.id)" v-if="data.user.role === 'ADMIN'">删除</el-button>
+              <el-button type="primary" @click="ScoreEdit(scope.row)" v-if="data.user.role === 'STUDENT'">反馈</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -33,16 +36,16 @@
                      background layout="prev, pager, next"
                      :total="data.total"/>
     </div>
-    <el-dialog style="width: 35%;text-align: center" v-model="data.formVisible" title="课程信息">
-      <el-form :model="data.Scoreform" label-width="100px" label-position="right">
-        <el-form-item label="课程名称">
-          <el-input v-model="data.Scoreform.name" autocomplete="off" disabled/>
+    <el-dialog style="width: 35%;text-align: center" v-model="data.formVisible" title="反馈信息">
+      <el-form :model="data.form" label-width="100px" label-position="right">
+        <el-form-item label="分数" v-if="data.user.role === 'ADMIN'">
+          <el-input v-model="data.form.score" autocomplete="off"/>
         </el-form-item>
-        <el-form-item label="成绩">
-          <el-input v-model="data.Scoreform.score" autocomplete="off"/>
+        <el-form-item label="评语" v-if="data.user.role === 'ADMIN'">
+          <el-input type="textarea" v-model="data.form.comment" autocomplete="off"/>
         </el-form-item>
-        <el-form-item label="评语">
-          <el-input  type="textarea" v-model="data.Scoreform.comment" autocomplete="off"/>
+        <el-form-item label="反馈" v-if="data.user.role === 'STUDENT'">
+          <el-input type="textarea" v-model="data.form.feedback" autocomplete="off"/>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -63,10 +66,9 @@ import request from "../../utils/request";
 import {ElMessage, ElMessageBox} from "element-plus";
 
 const data = reactive({
-  Scoreform:{},
+  form:{},
   formVisible:false,
-  name:'',
-  no:'',
+  studentsName:'',
   tableData:[],
   total:0,
   pageSize:5,         //每个页面的个数
@@ -78,13 +80,12 @@ const load = () => {
   let params={
     pageNum:data.pageNum,
     pageSize:data.pageSize,
-    name:data.name,
-    no:data.no,
+    studentsName:data.studentsName,
   }
   if(data.user.role === 'STUDENT'){   //如果当前登录的是学生，就查询自己的选课列表
     params.students_id = data.user.id
   }
-  request.get('/StudentsCourse/selectPage', {
+  request.get('/Score/selectPage', {
     params:params
   }).then(res=>{
     data.tableData=res.data?.list || []       //调用数据库中的list或者tabledata数组中的数据
@@ -93,8 +94,7 @@ const load = () => {
 }
 load()          //调用方法
 const reset = () => {
-  data.name='',
-      data.no='',
+  data.studentsName='',
       load()
 }           //重置方法
 
@@ -104,7 +104,7 @@ const coursechange = (pageNum) => {
 
 const Del = (id) => {
   ElMessageBox.confirm('删除数据后无法恢复，您确认删除吗？', '删除确认', { type: 'warning' }).then(res => {
-    request.delete('/StudentsCourse/delete/' +id) // 发送删除请求到后端
+    request.delete('/Score/delete/' +id) // 发送删除请求到后端
         .then(res =>{
           if (res.code === '200') {
             ElMessage.success("删除成功"); // 显示删除成功的提示消息
@@ -120,15 +120,13 @@ const Del = (id) => {
       });
 }
 
-const Score = (row) => {
+const ScoreEdit = (row) => {
+  data.form = JSON.parse(JSON.stringify(row))   //拷贝数据到表单form
   data.formVisible=true
-  data.Scoreform.name=row.name
-  data.Scoreform.course_id=row.courseId
-  data.Scoreform.students_id=row.studentsId
 }
 
 const save = () => {
-  request.post('/Score/add',data.Scoreform).then(res =>{
+  request.put('/Score/update',data.form).then(res =>{
     if(res.code === '200'){
       load()        //重新获取数据
       data.formVisible = false      //关闭弹窗

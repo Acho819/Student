@@ -7,7 +7,25 @@ public class Score {
     private Double score;
     private String comment;
     private String feedback;
+    private String studentsName;
+    private String courseName;
 
+
+    public String getStudentsName() {
+        return studentsName;
+    }
+
+    public void setStudentsName(String studentsName) {
+        this.studentsName = studentsName;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
 
     public Integer getId() {
         return id;

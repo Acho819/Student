@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ScoreMapper">
+    <select id="selectAll" resultType="com.example.entity.Score">
+        select students_score.*, students.name as studentsName,course.name as courseName
+        from students_score
+        left join students
+        on students_score.students_id=students.id
+        left join course
+        on students_score.course_id=course.id
+        <where>
+            <if test="studentsName != null">and students.name like concat ('%',#{studentsName},'%')</if>
+            <if test="courseName != null">and course.name like concat ('%',#{courseName},'%')</if>
+            <if test="students_id != null">and students_score.students_id = #{students_id}</if>
+        </where>
+        order by id desc
+    </select>
+</mapper>

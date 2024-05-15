@@ -42,7 +42,17 @@
               <span>课程列表</span>
             </el-menu-item>
           </el-sub-menu>
-          <el-sub-menu index="3" v-if="user.role === 'ADMIN'">
+          <el-sub-menu index="3">
+            <template #title>
+              <el-icon><Memo /></el-icon>
+              <span>成绩信息</span>
+            </template>
+            <el-menu-item index="/Score">
+              <el-icon><Calendar /></el-icon>
+              <span>学生成绩</span>
+            </el-menu-item>
+          </el-sub-menu>
+          <el-sub-menu index="4" v-if="user.role === 'ADMIN'">
             <template #title>
               <el-icon><ChromeFilled/></el-icon>
               <span>用户管理</span>
