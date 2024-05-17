@@ -40,7 +40,7 @@
     <el-dialog style="width: 35%;text-align: center" v-model="data.formVisible" title="学生信息">
       <el-form :model="data.form" label-width="100px" label-position="right">
         <el-form-item label="学生账号">
-          <el-input v-model="data.form.username" autocomplete="off" />
+          <el-input v-model="data.form.username" autocomplete="off" disabled/>
         </el-form-item>
         <el-form-item label="学生密码">
           <el-input show-password v-model="data.form.password" autocomplete="off" />

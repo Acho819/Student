@@ -18,7 +18,7 @@
             router
             style="border: none"
             :default-active="$route.path"
-            :default-openeds="['/home', '2','3','4']"
+            :default-openeds="['/home', '2','3','4','5']"
         >
           <el-menu-item index="/home">
             <el-icon><HomeFilled /></el-icon>
@@ -66,7 +66,7 @@
             <el-icon><User /></el-icon>
             <span>个人资料</span>
           </el-menu-item>
-          <el-sub-menu index="4" v-if="user.role ==='STUDENT'">
+          <el-sub-menu index="5" v-if="user.role ==='STUDENT'">
             <template #title>
               <el-icon><Hide /></el-icon>
               <span>隐私</span>

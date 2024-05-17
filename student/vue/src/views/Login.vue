@@ -62,6 +62,14 @@ const rules = reactive({
 const fromRef = ref()
 
 const login = () => {
+  const loading = ElLoading.service({
+    lock: true,
+    text: '登陆中',
+    background: 'rgba(0, 0, 0, 0.7)',
+  })          //login加载转圈
+  setTimeout(() => {
+    loading.close()
+  }, 2000)          //login加载转圈延时
   fromRef.value.validate((valid) => {
     if (valid) {
       request.post('/login',data.form).then(res => {
@@ -75,14 +83,6 @@ const login = () => {
       })
     }
   })
-  const loading = ElLoading.service({
-    lock: true,
-    text: '登陆中',
-    background: 'rgba(0, 0, 0, 0.7)',
-  })          //login加载转圈
-  setTimeout(() => {
-    loading.close()
-  }, 2000)          //login加载转圈延时
 }
 
 </script>

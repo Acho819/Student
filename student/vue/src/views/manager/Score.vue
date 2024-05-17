@@ -1,14 +1,22 @@
 <template>
   <div>
     <div class="card">
-      <el-input
+      <el-input v-if="data.user.role === 'ADMIN'"
           v-model="data.studentsName"
           style="width: 240px"
           placeholder="请输入学生名称搜索"
           :prefix-icon="Search"
       />
-      <el-button type="warning" style="margin-left: 10px" @click="load">搜索</el-button>
-      <el-button type="info" @click="reset">重置</el-button>
+      <el-button v-if="data.user.role === 'ADMIN'" type="warning" style="margin-left: 10px" @click="load">搜索</el-button>
+      <el-button v-if="data.user.role === 'ADMIN'" type="info" @click="reset">重置</el-button>
+      <el-input v-if="data.user.role === 'STUDENT'"
+          v-model="data.courseName"
+          style="width: 240px"
+          placeholder="请输入课程名称搜索"
+          :prefix-icon="Search"
+      />
+      <el-button v-if="data.user.role === 'STUDENT'" type="warning" style="margin-left: 10px" @click="Student_load">搜索</el-button>
+      <el-button v-if="data.user.role === 'STUDENT'" type="info" @click="Student_reset">重置</el-button>
     </div>
     <div class="card">
       <div>
@@ -30,9 +38,14 @@
       </div>
     </div>
     <div class="card">
-      <el-pagination v-model:current-page="data.pageNum"
+      <el-pagination v-if="data.user.role === 'ADMIN'" v-model:current-page="data.pageNum"
                      v-model:page-size="data.pageSize"
                      @current-change="coursechange"
+                     background layout="prev, pager, next"
+                     :total="data.total"/>
+      <el-pagination v-if="data.user.role === 'STUDENT'" v-model:current-page="data.pageNum"
+                     v-model:page-size="data.pageSize"
+                     @current-change="Student_coursechange"
                      background layout="prev, pager, next"
                      :total="data.total"/>
     </div>
@@ -69,6 +82,7 @@ const data = reactive({
   form:{},
   formVisible:false,
   studentsName:'',
+  courseName:'',
   tableData:[],
   total:0,
   pageSize:5,         //每个页面的个数
@@ -91,7 +105,7 @@ const load = () => {
     data.tableData=res.data?.list || []       //调用数据库中的list或者tabledata数组中的数据
     data.total=res.data?.total || 0           //调用数据库中的total或为0
   })
-}
+}               //管理员查询方法
 load()          //调用方法
 const reset = () => {
   data.studentsName='',
@@ -101,6 +115,34 @@ const reset = () => {
 const coursechange = (pageNum) => {
   load()
 }             //分页重新调用方法
+
+const Student_load = () => {
+  let params={
+    pageNum:data.pageNum,
+    pageSize:data.pageSize,
+    courseName:data.courseName
+  }
+  if(data.user.role === 'STUDENT'){   //如果当前登录的是学生，就查询自己的选课列表
+    params.students_id = data.user.id
+  }
+  request.get('/Score/selectPage', {
+    params:params
+  }).then(res=>{
+    data.tableData=res.data?.list || []       //调用数据库中的list或者tabledata数组中的数据
+    data.total=res.data?.total || 0           //调用数据库中的total或为0
+  })
+}                 //学生查询方法
+
+Student_load()   //调用方法
+
+const Student_reset = () => {
+  data.courseName='',
+      load()
+}               //学生重置搜索
+
+const Student_coursechange = (pageNum) => {
+  Student_load()
+}             //学生分页重新调用方法
 
 const Del = (id) => {
   ElMessageBox.confirm('删除数据后无法恢复，您确认删除吗？', '删除确认', { type: 'warning' }).then(res => {
