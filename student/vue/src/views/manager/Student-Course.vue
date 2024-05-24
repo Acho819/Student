@@ -4,7 +4,7 @@
       <el-input
           v-model="data.name"
           style="width: 240px"
-          placeholder="请输入名称搜索"
+          placeholder="请输入课程名称搜索"
           :prefix-icon="Search"
       />
       <el-button type="warning" style="margin-left: 10px" @click="load">搜索</el-button>
