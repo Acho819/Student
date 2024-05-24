@@ -18,7 +18,7 @@
             router
             style="border: none"
             :default-active="$route.path"
-            :default-openeds="['/home', '2','3','4','5']"
+            :default-openeds="[]"
         >
           <el-menu-item index="/home">
             <el-icon><HomeFilled /></el-icon>
@@ -30,7 +30,7 @@
               <span>课程管理</span>
             </template>
             <el-menu-item index="/course" v-if="user.role === 'ADMIN'">
-              <el-icon><Calendar /></el-icon>
+              <el-icon><Reading /></el-icon>
               <span>课程信息</span>
             </el-menu-item>
             <el-menu-item index="/Student-Course" v-if="user.role === 'STUDENT'">
@@ -44,11 +44,11 @@
           </el-sub-menu>
           <el-sub-menu index="3">
             <template #title>
-              <el-icon><Memo /></el-icon>
+              <el-icon><Histogram /></el-icon>
               <span>成绩信息</span>
             </template>
             <el-menu-item index="/Score">
-              <el-icon><Calendar /></el-icon>
+              <el-icon><Tickets /></el-icon>
               <span>学生成绩</span>
             </el-menu-item>
           </el-sub-menu>

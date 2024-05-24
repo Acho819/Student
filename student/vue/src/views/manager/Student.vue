@@ -12,7 +12,7 @@
     </div>
     <div class="card">
       <div>
-        <el-button type="primary" style="margin-bottom: 10px" @click="courseXingz">新增</el-button>
+        <el-button type="primary" style="margin-bottom: 10px" @click="studentXingz">新增</el-button>
         <el-table :data="data.tableData" style="width: 100%">
           <el-table-column prop="id" label="序号" width="52"/>
           <el-table-column prop="username" label="学生账号"/>
@@ -23,7 +23,7 @@
           <el-table-column prop="bith" label="生日"/>
           <el-table-column label="操作" width="180">
             <template #default="scope">
-              <el-button type="primary" @click="courseEdit(scope.row)">编辑</el-button>
+              <el-button type="primary" @click="studentEdit(scope.row)">编辑</el-button>
               <el-button type="danger" @click="del(scope.row)">删除</el-button>
             </template>
           </el-table-column>
@@ -40,7 +40,7 @@
     <el-dialog style="width: 35%;text-align: center" v-model="data.formVisible" title="学生信息">
       <el-form :model="data.form" label-width="100px" label-position="right">
         <el-form-item label="学生账号">
-          <el-input v-model="data.form.username" autocomplete="off" disabled/>
+          <el-input v-model="data.form.username" autocomplete="off" :disabled="data.isDisabled"/>
         </el-form-item>
         <el-form-item label="学生密码">
           <el-input show-password v-model="data.form.password" autocomplete="off" />
@@ -89,7 +89,8 @@ const data = reactive({
   pageSize:5,         //每个页面的个数
   pageNum:1,           //页码数
   formVisible:false,
-  form:{}
+  form:{},
+  isDisabled:true
 })
 
 const load = () => {
@@ -115,9 +116,10 @@ const reset = () => {
       load()
 }           //重置方法
 
-const courseXingz = () => {
+const studentXingz = () => {
   data.form = {}
   data.formVisible = true
+  data.isDisabled=false
 }
 
 const save = () => {
@@ -137,9 +139,10 @@ const save = () => {
   })
 }
 
-const courseEdit = (row) => {
+const studentEdit = (row) => {
   data.form=JSON.parse(JSON.stringify(row))
-  data.formVisible=true;
+  data.formVisible=true
+  data.isDisabled=true
 }
 
 const del = (row) => {
