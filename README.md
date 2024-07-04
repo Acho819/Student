@@ -54,6 +54,9 @@
 
 ## 项目截图：
 
+>首页登录页面
 ![](https://github.com/Acho819/Student/blob/master/%E9%A1%B9%E7%9B%AE%E6%88%AA%E5%9B%BE/%E9%A6%96%E9%A1%B5%E7%99%BB%E5%BD%95.png)
-
+>学生端主界面
 ![](https://github.com/Acho819/Student/blob/master/%E9%A1%B9%E7%9B%AE%E6%88%AA%E5%9B%BE/%E5%AD%A6%E7%94%9F%E7%AB%AF%E9%A6%96%E9%A1%B5%E7%95%8C%E9%9D%A2.png)
+>学生端侧边导航栏
+![](https://github.com/Acho819/Student/blob/master/%E9%A1%B9%E7%9B%AE%E6%88%AA%E5%9B%BE/%E5%AD%A6%E7%94%9F%E7%AB%AF%E4%BE%A7%E8%BE%B9%E5%AF%BC%E8%88%AA%E6%A0%8F.png)
