@@ -51,3 +51,9 @@
 > 账号忘记密码
 >
 > 隐私安全管理
+
+## 项目截图：
+
+![](https://github.com/Acho819/Student/blob/master/%E9%A1%B9%E7%9B%AE%E6%88%AA%E5%9B%BE/%E9%A6%96%E9%A1%B5%E7%99%BB%E5%BD%95.png)
+
+![](https://github.com/Acho819/Student/blob/master/%E9%A1%B9%E7%9B%AE%E6%88%AA%E5%9B%BE/%E5%AD%A6%E7%94%9F%E7%AB%AF%E9%A6%96%E9%A1%B5%E7%95%8C%E9%9D%A2.png)
